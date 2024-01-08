@@ -1,23 +1,38 @@
 import "./BattlefieldComponent.scss"
 import TokenModal from "../../UIComponents/AddTokenModal/TokenModal"
 
+export type battlefieldRowType = {
+
+}
+
+export enum BATTLEFIELD_ROW_TYPE {
+  "creature",
+  "object",
+  "environment"
+}
+
 export const BattlefieldComponent = () => {
 
   const battlefieldCol = () => {
+    
     return (
       <div className="battlefieldCol" id="battlefield">
-        <div className="battlefieldRow" id="">
+        <div className="battlefieldRow" id="creatures_row">
           <h3>CREATURES</h3>
 
-          <TokenModal />
+          <TokenModal fieldType={BATTLEFIELD_ROW_TYPE.creature} />
         </div>
         
-        <div className="battlefieldRow">
+        <div className="battlefieldRow" id="objects_row">
           <h3>OBJECTS</h3>
+
+          <TokenModal fieldType={BATTLEFIELD_ROW_TYPE.object} />
         </div>
 
-        <div className="battlefieldRow">
+        <div className="battlefieldRow" id="environment_row">
           <h3>ENVIRONMENT</h3>
+
+          <TokenModal fieldType={BATTLEFIELD_ROW_TYPE.environment} />
         </div>
       </div>
     )

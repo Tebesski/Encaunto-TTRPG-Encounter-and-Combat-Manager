@@ -3,8 +3,6 @@ import { TokenData } from "../classes/TokenClasses/TokenCreator";
 
 export function assembleToken(tokenData: TokenData) {
    return (
-      <div className="battlefieldRow">
-         <FieldTokenComponent baseTokenData={tokenData} />
-      </div>
+      <FieldTokenComponent baseTokenData={tokenData} />
    )
 }

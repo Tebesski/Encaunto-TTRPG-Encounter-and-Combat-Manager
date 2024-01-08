@@ -10,9 +10,13 @@ import { EntityData } from "../EntitiesClasses/EntityCreator"
 
 export interface TokenData {
    tokenTrueName: string,
-   tokenLabel: string | null,
+   tokenAlias: string | null,
+   tokenInitiative: number,
+   tokenHP: string,
+   tokenDefense: string,
+   tokenSpeed: string,
    tokenId: string,
-   tokenType: TOKEN_TYPE,
+   tokenType: TOKEN_TYPE | null,
    tokenLabelColor: string,
    tokenStatusColor: string,
    linkedTo: string | null,

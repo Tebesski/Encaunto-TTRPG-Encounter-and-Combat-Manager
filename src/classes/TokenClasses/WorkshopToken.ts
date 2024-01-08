@@ -3,27 +3,35 @@ import { TOKEN_TYPE } from "./TokenCreator";
 import { TokenData } from "./TokenCreator";
 import { v4 as uuidv4 } from "uuid"
 
-export type BattlefieldTokenDataType = TokenData & {
-   tokenType: TOKEN_TYPE.BATTLEFIELD_TOKEN
+export type WorkshopTokenDataType = TokenData & {
+   tokenType: TOKEN_TYPE.WORKSHOP_TOKEN
 }
 
-export class BattlefieldToken implements BattlefieldTokenDataType {
+export class WorkshopToken implements WorkshopTokenDataType {
    tokenTrueName: string;
-   tokenLabel: string | null;
+   tokenAlias: string | null;
    tokenId: string;
-   tokenType: TOKEN_TYPE.BATTLEFIELD_TOKEN;
+   tokenType: TOKEN_TYPE.WORKSHOP_TOKEN;
    tokenLabelColor: string;
    tokenStatusColor: string;
    linkedTo: string | null;
+   tokenInitiative: number;
+   tokenHP: string;
+   tokenDefense: string;
+   tokenSpeed: string;
 
    constructor(gatheredData: EntityData){
       this.tokenTrueName = gatheredData.entityName
-      this.tokenLabel = gatheredData.entityName
-      this.tokenId = uuidv4();
-      this.tokenType = TOKEN_TYPE.BATTLEFIELD_TOKEN
+      this.tokenAlias = gatheredData.entityName
+      this.tokenId = uuidv4()
+      this.tokenType = TOKEN_TYPE.WORKSHOP_TOKEN
       this.tokenLabelColor = "red"
       this.tokenStatusColor = "blue"
       this.linkedTo = null
+      this.tokenInitiative = 1;
+      this.tokenHP = "1";
+      this.tokenDefense = "1";
+      this.tokenSpeed = "Fast";
    }
    assembleToken(): JSX.Element {
       throw new Error("Method not implemented.");

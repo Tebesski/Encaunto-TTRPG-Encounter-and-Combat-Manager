@@ -10,21 +10,29 @@ export type InitiativeTokenDataType = TokenData & {
 
 export class InitiativeToken implements InitiativeTokenDataType {
    tokenTrueName: string;
-   tokenLabel: string | null;
+   tokenAlias: string | null;
    tokenId: string;
    tokenType: TOKEN_TYPE.INITIATIVE_TOKEN;
    tokenLabelColor: string;
    tokenStatusColor: string;
    linkedTo: string | null;
+   tokenInitiative: number;
+   tokenHP: string;
+   tokenDefense: string;
+   tokenSpeed: string;
 
    constructor(gatheredData: EntityData){
       this.tokenTrueName = gatheredData.entityName
-      this.tokenLabel = gatheredData.entityName
+      this.tokenAlias = gatheredData.entityName
       this.tokenId = uuidv4()
       this.tokenType = TOKEN_TYPE.INITIATIVE_TOKEN
       this.tokenLabelColor = "red"
       this.tokenStatusColor = "blue"
       this.linkedTo = null
+      this.tokenInitiative = 1;
+      this.tokenHP = "1";
+      this.tokenDefense = "1";
+      this.tokenSpeed = "Fast";
    }
 
    assembleToken(): JSX.Element {
