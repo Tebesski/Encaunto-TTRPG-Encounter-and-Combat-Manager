@@ -1,18 +1,17 @@
-import {BattlefieldComponent} from "../../components/FieldComponents/BattlefieldComponent/BattlefieldComponent"
-import { TokenCreator } from "../../classes/TokenClasses/TokenCreator"
-import { gatherUserEntityDataInput } from "../../ad-hoc-functions/gatherUserEntityDataInput"
+import { BattlefieldComponent } from "../../components/FieldComponents/BattlefieldComponent/BattlefieldComponent";
+import { InitiativeComponent } from "../../components/FieldComponents/InitiativeComponent/InitiativeComponent";
+import { WorkshopComponent } from "../../components/FieldComponents/WorkshopColComponent/WorkshopComponent";
 
-export const FieldPage = () =>  {
+import { TokenCreator } from "../../classes/TokenClasses/TokenCreator";
+import { gatherUserEntityDataInput } from "../../ad-hoc-functions/gatherUserEntityDataInput";
+import "./FieldPage.scss";
 
-  // TEST TOKEN CREATOR
-  const params = gatherUserEntityDataInput()
-  const token = TokenCreator.createInitiativeToken(params)
-  token.assembleToken()
-  console.log(token.assembleToken());
-
-    return (
-      <div>
-        <BattlefieldComponent />
-      </div>
-    )   
-  }
+export function FieldPage() {
+  return (
+    <div className="fieldContainer">
+      <InitiativeComponent />
+      <BattlefieldComponent />
+      <WorkshopComponent />
+    </div>
+  );
+}

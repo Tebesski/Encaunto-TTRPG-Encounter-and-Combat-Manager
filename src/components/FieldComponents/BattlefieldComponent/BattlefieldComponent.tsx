@@ -1,75 +1,86 @@
-import "./BattlefieldComponent.scss"
-import TokenModal from "../../UIComponents/AddTokenModal/TokenModal"
+import "./BattlefieldComponent.scss";
+import TokenModal from "../../UIComponents/AddTokenModal/TokenModal";
+import { useState } from "react";
+import { TokenData } from "../../../classes/TokenClasses/TokenCreator";
 
-export type battlefieldRowType = {
+export function BattlefieldComponent() {
+  const [creaturesTokens, setCreaturesToken] = useState<
+    { content: JSX.Element }[]
+  >([]);
 
-}
+  const [objectsTokens, setdObjectsToken] = useState<
+    { content: JSX.Element }[]
+  >([]);
 
-export enum BATTLEFIELD_ROW_TYPE {
-  "creature",
-  "object",
-  "environment"
-}
+  const [environmentTokens, setEnvironmentToken] = useState<
+    { content: JSX.Element }[]
+  >([]);
 
-export const BattlefieldComponent = () => {
+  function dispatchTokens(currentTokenType: string) {
+    switch (currentTokenType) {
+      case "creaturesToken":
+        return creaturesTokens.map((element) => element.content);
+      case "objectsToken":
+        return objectsTokens.map((element) => element.content);
+      case "environmentToken":
+        return environmentTokens.map((element) => element.content);
+    }
+  }
 
-  const battlefieldCol = () => {
-    
-    return (
-      <div className="battlefieldCol" id="battlefield">
-        <div className="battlefieldRow" id="creatures_row">
+  return (
+    <div className="battlefieldZone">
+      <div className="battlefieldCol" id="creaturesCol">
+        <header>
           <h3>CREATURES</h3>
+        </header>
 
-          <TokenModal fieldType={BATTLEFIELD_ROW_TYPE.creature} />
-        </div>
-        
-        <div className="battlefieldRow" id="objects_row">
+        <main className="battlefieldRow">
+          {creaturesTokens.length < 2 ? null : dispatchTokens("creaturesToken")}
+        </main>
+
+        <TokenModal
+          tokenType="creaturesToken"
+          addToken={setCreaturesToken}
+          tokenArray={creaturesTokens}
+          key="creaturesTokenModal"
+        />
+      </div>
+
+      <div className="battlefieldCol" id="objectsCol">
+        <header>
           <h3>OBJECTS</h3>
+        </header>
 
-          <TokenModal fieldType={BATTLEFIELD_ROW_TYPE.object} />
-        </div>
+        <main className="battlefieldRow">
+          {objectsTokens.length < 2 ? null : dispatchTokens("objectsToken")}
+        </main>
 
-        <div className="battlefieldRow" id="environment_row">
+        <TokenModal
+          tokenType="objectsToken"
+          addToken={setdObjectsToken}
+          tokenArray={objectsTokens}
+          key="objectsTokenModal"
+        />
+      </div>
+
+      <div className="battlefieldCol" id="environmentCol">
+        <header>
           <h3>ENVIRONMENT</h3>
+        </header>
 
-          <TokenModal fieldType={BATTLEFIELD_ROW_TYPE.environment} />
-        </div>
+        <main className="battlefieldRow">
+          {environmentTokens.length < 2
+            ? null
+            : dispatchTokens("environmentToken")}
+        </main>
+
+        <TokenModal
+          tokenType="environmentToken"
+          addToken={setEnvironmentToken}
+          tokenArray={environmentTokens}
+          key="environmentTokenModal"
+        />
       </div>
-    )
-  }
-
-  const initiativeCol = () => {
-    return (
-      <div className="initiativeCol">
-        <div className="initiativeRow">TEST1</div>
-        <div className="initiativeRow">TEST1</div>
-        <div className="initiativeRow">TEST1</div>
-      </div>
-    )
-  }
-
-  const workshopCol = () => {
-      return (
-        <div className="workshopCol">
-        </div>
-      )
-  }
-
-    return (
-      <div className="fieldContainer">
-
-        <div className="initiativeField">
-          {initiativeCol()}
-        </div>
-
-        <div className="battlefieldZone">
-          {battlefieldCol()}
-        </div>
-
-        <div className="workshopField">
-          {workshopCol()}
-        </div>
-
-      </div>
-    );
-  }
+    </div>
+  );
+}

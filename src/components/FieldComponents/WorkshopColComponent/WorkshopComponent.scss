@@ -1,0 +1,16 @@
+.workshopField {
+  width: 20%;
+  border: 2px solid black;
+}
+
+.workshopCol {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 5px;
+}
+
+.workshopRow {
+  border: 2px solid black;
+  padding: 5px;
+}

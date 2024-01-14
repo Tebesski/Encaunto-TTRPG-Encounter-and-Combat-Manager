@@ -1,67 +1,30 @@
-.fieldContainer {
-   display: flex;
-   gap: 20px;
-   padding-left: 10px;
-   padding-right: 10px;
-}
-
 .battlefieldZone {
-   border: 2px solid black;
-   // border-right: none;
-   width: 65%;
-   height: 90vh;
+  border: 2px solid black;
+  width: 65%;
+  height: 90vh;
 
-   display: flex;
-   flex-grow: 1;
-   justify-content: center;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
 }
 
 .battlefieldCol {
-   display: flex;
-   // border-right: 2px solid black;
-
-   flex-direction: row;
-   flex-grow: 0;
-   padding: 10px;
-   gap: 5px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+  padding: 10px;
+  gap: 5px;
+  border: 2px solid black;
+  width: 100%;
+  align-items: center;
 }
 
 .battlefieldRow {
-   border: 2px solid black;
-   padding: 5px;
-   text-align: center;
-}
-
-.initiativeField {
-   width: 20%;
-   border: 2px solid black;
-}
-
-.initiativeCol {
-   display: flex;
-   flex-direction: column;
-   padding: 10px;
-   gap: 5px;
-}
-
-.initiativeRow {
-   border: 2px solid black;
-   padding: 5px;
-}
-
-.workshopField {
-   width: 20%;
-   border: 2px solid black;
-}
-
-.workshopCol {
-   display: flex;
-   flex-direction: column;
-   padding: 10px;
-   gap: 5px;
-}
-
-.workshopRow {
-   border: 2px solid black;
-   padding: 5px;
+  display: flex;
+  flex-direction: column;
+  border: 1px dotted black;
+  padding: 5px;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
 }

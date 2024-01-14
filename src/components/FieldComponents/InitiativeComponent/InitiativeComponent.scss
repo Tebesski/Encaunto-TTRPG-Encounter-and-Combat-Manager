@@ -1,0 +1,16 @@
+.initiativeField {
+  width: 20%;
+  border: 2px solid black;
+}
+
+.initiativeCol {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 5px;
+}
+
+.initiativeRow {
+  border: 2px solid black;
+  padding: 5px;
+}

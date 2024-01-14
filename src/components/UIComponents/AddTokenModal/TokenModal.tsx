@@ -1,31 +1,36 @@
-import * as React from 'react';
-import { assembleToken as assembleTokenAdHoc } from '../../../ad-hoc-functions/assembleToken';
-import { TokenData } from '../../../classes/TokenClasses/TokenCreator';
-import { TOKEN_TYPE } from '../../../classes/TokenClasses/TokenCreator';
-import { BATTLEFIELD_ROW_TYPE } from '../../FieldComponents/BattlefieldComponent/BattlefieldComponent';
+import * as React from "react";
+import { assembleToken } from "../../../ad-hoc-functions/assembleToken";
+import { TokenData } from "../../../classes/TokenClasses/TokenCreator";
 
-import { v4 as uuidv4 } from 'uuid';
-import randomColor from 'randomcolor';
+import { v4 as uuidv4 } from "uuid";
+import randomColor from "randomcolor";
 
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import AddIcon from '@mui/icons-material/Add';
-import DialogTitle from '@mui/material/DialogTitle';
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import AddIcon from "@mui/icons-material/Add";
+import DialogTitle from "@mui/material/DialogTitle";
 
-import CustomizedAccordions from './TokenModalAccordion'
+import CustomizedAccordions from "./TokenModalAccordion";
 
-export default function TokenModal<BATTLEFIELD_ROW_TYPE>(fieldType: BATTLEFIELD_ROW_TYPE) {
+type tokenModalProps = {
+  tokenType: string;
+  addToken: Function;
+  tokenArray: { content: JSX.Element }[];
+};
+
+export default function TokenModal(props: tokenModalProps) {
   const [open, setOpen] = React.useState(false);
-  const [fieldRowType, setFieldRowType] = React.useState<BATTLEFIELD_ROW_TYPE>()
+
+  const [currentTokenType, setCurrentTokenType] = React.useState("");
 
   const [tokenData, setTokenData] = React.useState<TokenData>({
     tokenTrueName: "",
     tokenAlias: null,
     tokenId: "",
-    tokenType: null,
+    tokenType: "",
     tokenLabelColor: "",
     tokenStatusColor: "",
     linkedTo: null,
@@ -33,22 +38,44 @@ export default function TokenModal<BATTLEFIELD_ROW_TYPE>(fieldType: BATTLEFIELD_
     tokenHP: "",
     tokenDefense: "",
     tokenSpeed: "",
+    isEliminated: false,
+  });
 
-    assembleToken(): JSX.Element {
-      return assembleTokenAdHoc(tokenData)
-   }
-  })
+  const [token, setNewToken] = React.useState({ content: <></> });
 
+  // USE EFFECT NEW TOKEN
   React.useEffect(() => {
-    if(tokenData.tokenId.length > 0) {
-      const token = tokenData.assembleToken()
-      
-    }
-  }, [tokenData, fieldRowType])
+    if (tokenData.tokenId.length > 0) {
+      setNewToken(assembleToken(tokenData as TokenData));
 
-  function handleOnChange(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
-    const value = event.target.value
-    const fieldId = event.target.id
+      setTokenData({
+        tokenTrueName: "",
+        tokenAlias: null,
+        tokenId: "",
+        tokenType: "",
+        tokenLabelColor: "",
+        tokenStatusColor: "",
+        linkedTo: null,
+        tokenInitiative: 0,
+        tokenHP: "",
+        tokenDefense: "",
+        tokenSpeed: "",
+        isEliminated: false,
+      });
+    }
+  }, [tokenData]);
+
+  // USE EFFECT ADD TOKEN
+  React.useEffect(() => {
+    props.addToken([...props.tokenArray, token]);
+  }, [token]);
+
+  // ON CHANGE
+  function handleOnChange(
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) {
+    const value = event.target.value;
+    const fieldId = event.target.id;
 
     switch (fieldId) {
       case "creatureName":
@@ -56,40 +83,41 @@ export default function TokenModal<BATTLEFIELD_ROW_TYPE>(fieldType: BATTLEFIELD_
           ...tokenData,
           tokenTrueName: value,
           tokenAlias: value,
-        })   
+        });
         break;
       case "creatureInitiative":
         setTokenData({
           ...tokenData,
           tokenInitiative: Number(value),
-        })   
+        });
         break;
       case "creatureHP":
         setTokenData({
           ...tokenData,
           tokenHP: value,
-        }) 
+        });
         break;
       case "creatureDefense":
         setTokenData({
           ...tokenData,
-        tokenDefense: value,
-        }) 
+          tokenDefense: value,
+        });
         break;
       case "creatureSpeed":
         setTokenData({
           ...tokenData,
-        tokenSpeed: value,
-        }) 
+          tokenSpeed: value,
+        });
         break;
-    
+
       default:
         break;
     }
   }
 
+  // HANDLE OPEN MODAL
   const handleClickOpen = () => {
-    setFieldRowType(fieldType)
+    setCurrentTokenType(props.tokenType);
     setOpen(true);
   };
 
@@ -99,32 +127,36 @@ export default function TokenModal<BATTLEFIELD_ROW_TYPE>(fieldType: BATTLEFIELD_
   }
 
   // HANDLE ADD TOKEN
-  function handleAddToken () {
-
-    if(tokenData.tokenTrueName.length < 1) return
+  function handleAddToken() {
+    if (tokenData.tokenTrueName.length < 1) return;
 
     setTokenData({
       ...tokenData,
       tokenId: uuidv4(),
-      tokenType: TOKEN_TYPE.BATTLEFIELD_TOKEN,
+      tokenType: currentTokenType,
       tokenLabelColor: randomColor(),
       tokenStatusColor: "gray",
       linkedTo: null,
-    })
+    });
 
     setOpen(false);
-  };
+  }
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen} id="creature_add_button">
-        <AddIcon
-        fontSize='large'/>
+      <Button
+        variant="outlined"
+        onClick={handleClickOpen}
+        id="creature_add_button"
+      >
+        <AddIcon fontSize="large" />
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>DESCRIBE THE CREATURE</DialogTitle>
-        <DialogContent sx={{display: 'flex', flexDirection: 'column', width: 1/3}}>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", width: 1 / 3 }}
+        >
           <TextField
             autoFocus
             margin="dense"
@@ -176,7 +208,6 @@ export default function TokenModal<BATTLEFIELD_ROW_TYPE>(fieldType: BATTLEFIELD_
           />
 
           <CustomizedAccordions />
-
         </DialogContent>
         <DialogActions>
           <Button onClick={handleAddToken}>ADD CREATURE TO BATTLEFIELD</Button>
