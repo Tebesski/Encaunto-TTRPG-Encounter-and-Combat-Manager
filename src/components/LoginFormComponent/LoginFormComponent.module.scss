@@ -1,0 +1,151 @@
+.loginPageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  background-color: whitesmoke;
+  padding: 50px;
+  border-radius: 15px;
+  width: 212.2px;
+}
+
+.loginInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.loginMain {
+  display: flex;
+  flex-direction: column;
+}
+
+:global(.formBtn) {
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid #1a1a1a;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #3b3b3b;
+  cursor: pointer;
+  display: inline-block;
+  font-family:
+    Roobert,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Helvetica,
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  min-width: 0;
+  outline: none;
+  padding: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+:global(.formBtn:disabled) {
+  pointer-events: none;
+}
+
+:global(.formBtn:hover) {
+  color: #fff;
+  background-color: #1a1a1a;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+:global(.formBtn:active) {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+:global(.formClose) {
+  position: relative;
+  top: 30px;
+  left: 284px;
+  border: 1px solid #1a1a1a;
+  color: #1a1a1a;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 50%;
+  transition: all 0.07s linear;
+}
+
+:global(.formClose:hover) {
+  cursor: pointer;
+  background-color: #1a1a1a;
+  color: whitesmoke;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+}
+
+:global(.formCloseIcon) {
+  font-size: 13px;
+}
+
+.forgotPass {
+  min-height: 20px;
+  width: 150px;
+  font-size: 14px;
+}
+
+.signIn {
+  width: 150px;
+  min-height: 20px;
+  border-radius: 5px;
+  margin-bottom: 100px;
+}
+
+.rememberMe {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.registerBtn {
+  font-size: 16px;
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}
+
+.input {
+  border: 1px solid lightgray;
+}
+
+.input:focus {
+  box-shadow: none;
+  border: 1px solid #1a1a1a;
+}
+
+.incorrectCreds {
+  outline: red solid 1px;
+}
+
+.incorrectCredsMessage {
+  position: absolute;
+  top: 50px;
+  left: 40%;
+  border: 1px solid;
+  padding: 15px 10px 15px 50px;
+  width: 300px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+
+  color: #d8000c;
+  background-color: #ffbaba;
+  background-image: url("https://i.imgur.com/GnyDvKN.png");
+}

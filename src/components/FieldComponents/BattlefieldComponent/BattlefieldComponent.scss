@@ -2,7 +2,6 @@
   border: 2px solid black;
   width: 65%;
   height: 90vh;
-
   display: flex;
   flex-grow: 1;
   justify-content: center;
@@ -11,7 +10,6 @@
 .battlefieldCol {
   display: flex;
   flex-direction: column;
-  flex-grow: 0;
   padding: 10px;
   gap: 5px;
   border: 2px solid black;

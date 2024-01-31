@@ -1,31 +1,50 @@
-import React from 'react'
-import { Route, Routes, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 
-import {FieldPage} from '../../pages/FieldPage/FieldPage';
-import {WorkshopPage} from '../../pages/WorkshopPage/WorkshopPage';
-import {NavigationComponent} from '../../components/NavigationComponent/NavigationComponent';
+import ProtectedRoute from "../../components/Helpers/ProtectedRoute";
+import { NotFoundPage } from "../../pages/NotFoundPage/NotFoundPage";
+import { NavigationComponent } from "../../components/NavigationComponent/NavigationComponent";
+import { FieldPage } from "../../pages/FieldPage/FieldPage";
+import { WorkshopPage } from "../../pages/WorkshopPage/WorkshopPage";
+import { ProfilePage } from "../../pages/ProfilePage/ProfilePage";
+import { FooterComponent } from "../../components/FooterComponent/FooterComponent";
 
-import "./MainContainer.scss"
+import style from "./MainContainer.module.scss";
 
 export const MainContainer = () => {
-   return (
-      <div className='container'>
+  return (
+    <div className={style.container} id="mainApp">
+      <header className={style.navigationComponent}>
+        <NavigationComponent />
+      </header>
 
-         <header className='navigationComponent'>
-            <NavigationComponent />
-         </header>
+      <main>
+        <Routes>
+          <Route index={true} element={<FieldPage />} />
+          <Route path="/battlefield" element={<FieldPage />} />
+          <Route
+            path="/workshop"
+            element={
+              <ProtectedRoute>
+                <WorkshopPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
 
-         <main>
-            <Routes>
-               <Route index={true} element={<FieldPage />} />
-               <Route path="/workshop" element={<WorkshopPage />} />
-            </Routes>
-         </main>
-
-         <footer>
-            
-         </footer>
-
-      </div>
-   )
-}
+      <footer>
+        <FooterComponent />
+      </footer>
+    </div>
+  );
+};

@@ -1,0 +1,60 @@
+.navBar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.navBar a {
+  width: 150px;
+  height: 30px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  font-size: 16px;
+  text-decoration: none;
+  background-color: #b1a172;
+  color: #fef9ee;
+  transition: all 0.15s linear;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navBar a:hover {
+  background-color: #f2fedc;
+  color: #332a00;
+  cursor: pointer;
+}
+
+.navBar a:global(.active) {
+  background-color: #f2fedc;
+  color: #332a00;
+}
+
+.navBar i {
+  padding-left: 7px;
+  font-size: 13.5px;
+}
+
+.logOutBtn {
+  background-color: #b1a172;
+  font-size: 15px;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  border-top: none;
+  border-left: 1px solid black;
+  transition: all 0.15s linear;
+  color: #fef9ee;
+  margin-left: -2px;
+}
+
+.logOutBtn:hover {
+  background-color: #f2fedc;
+  color: #332a00;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}

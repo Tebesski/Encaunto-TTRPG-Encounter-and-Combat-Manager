@@ -1,5 +1,4 @@
 import * as React from "react";
-import { assembleToken } from "../../../ad-hoc-functions/assembleToken";
 import { TokenData } from "../../../classes/TokenClasses/TokenCreator";
 
 import { v4 as uuidv4 } from "uuid";
@@ -13,61 +12,70 @@ import DialogContent from "@mui/material/DialogContent";
 import AddIcon from "@mui/icons-material/Add";
 import DialogTitle from "@mui/material/DialogTitle";
 
-import CustomizedAccordions from "./TokenModalAccordion";
-
-type tokenModalProps = {
+type TokenModalProps = {
   tokenType: string;
   addToken: Function;
-  tokenArray: { content: JSX.Element }[];
 };
 
-export default function TokenModal(props: tokenModalProps) {
+export default function TokenModal(props: TokenModalProps) {
+  const { addToken } = props;
   const [open, setOpen] = React.useState(false);
 
   const [currentTokenType, setCurrentTokenType] = React.useState("");
 
   const [tokenData, setTokenData] = React.useState<TokenData>({
-    tokenTrueName: "",
-    tokenAlias: null,
-    tokenId: "",
-    tokenType: "",
-    tokenLabelColor: "",
-    tokenStatusColor: "",
-    linkedTo: null,
-    tokenInitiative: 0,
-    tokenHP: "",
-    tokenDefense: "",
-    tokenSpeed: "",
-    isEliminated: false,
+    data: {
+      tokenTrueName: "",
+      tokenAlias: null,
+      tokenType: "",
+      tokenLabelColor: "",
+      tokenStatusColor: "",
+      linkedTo: null,
+      tokenInitiative: 0,
+      tokenHP: "",
+      tokenDefense: "",
+      tokenSpeed: "",
+      isEliminated: false,
+      isActive: false,
+    },
+    id: "",
   });
 
-  const [token, setNewToken] = React.useState({ content: <></> });
+  const [token, setNewToken] = React.useState(tokenData);
+  const [tokenAdded, setTokenAdded] = React.useState(false);
 
   // USE EFFECT NEW TOKEN
   React.useEffect(() => {
-    if (tokenData.tokenId.length > 0) {
-      setNewToken(assembleToken(tokenData as TokenData));
+    if (tokenData.id.length > 0) {
+      setNewToken(tokenData);
 
       setTokenData({
-        tokenTrueName: "",
-        tokenAlias: null,
-        tokenId: "",
-        tokenType: "",
-        tokenLabelColor: "",
-        tokenStatusColor: "",
-        linkedTo: null,
-        tokenInitiative: 0,
-        tokenHP: "",
-        tokenDefense: "",
-        tokenSpeed: "",
-        isEliminated: false,
+        data: {
+          tokenTrueName: "",
+          tokenAlias: null,
+          tokenType: "",
+          tokenLabelColor: "",
+          tokenStatusColor: "",
+          linkedTo: null,
+          tokenInitiative: 0,
+          tokenHP: "",
+          tokenDefense: "",
+          tokenSpeed: "",
+          isEliminated: false,
+          isActive: false,
+        },
+        id: "",
       });
     }
   }, [tokenData]);
 
   // USE EFFECT ADD TOKEN
   React.useEffect(() => {
-    props.addToken([...props.tokenArray, token]);
+    if (tokenAdded) {
+      addToken((tokenArray: TokenData[]) => [...tokenArray, token]);
+
+      setTokenAdded(false);
+    }
   }, [token]);
 
   // ON CHANGE
@@ -80,33 +88,48 @@ export default function TokenModal(props: tokenModalProps) {
     switch (fieldId) {
       case "creatureName":
         setTokenData({
-          ...tokenData,
-          tokenTrueName: value,
-          tokenAlias: value,
+          data: {
+            ...tokenData.data,
+            tokenTrueName: value,
+            tokenAlias: value,
+          },
+          id: "",
         });
         break;
       case "creatureInitiative":
         setTokenData({
-          ...tokenData,
-          tokenInitiative: Number(value),
+          data: {
+            ...tokenData.data,
+            tokenInitiative: Number(value),
+          },
+          id: "",
         });
         break;
       case "creatureHP":
         setTokenData({
-          ...tokenData,
-          tokenHP: value,
+          data: {
+            ...tokenData.data,
+            tokenHP: value,
+          },
+          id: "",
         });
         break;
       case "creatureDefense":
         setTokenData({
-          ...tokenData,
-          tokenDefense: value,
+          data: {
+            ...tokenData.data,
+            tokenDefense: value,
+          },
+          id: "",
         });
         break;
       case "creatureSpeed":
         setTokenData({
-          ...tokenData,
-          tokenSpeed: value,
+          data: {
+            ...tokenData.data,
+            tokenSpeed: value,
+          },
+          id: "",
         });
         break;
 
@@ -126,21 +149,40 @@ export default function TokenModal(props: tokenModalProps) {
     setOpen(false);
   }
 
-  // HANDLE ADD TOKEN
+  // HANDLE SET NEW TOKEN
   function handleAddToken() {
-    if (tokenData.tokenTrueName.length < 1) return;
-
+    if (tokenData.data.tokenTrueName.length < 1) return;
     setTokenData({
-      ...tokenData,
-      tokenId: uuidv4(),
-      tokenType: currentTokenType,
-      tokenLabelColor: randomColor(),
-      tokenStatusColor: "gray",
-      linkedTo: null,
+      data: {
+        ...tokenData.data,
+        tokenType: currentTokenType,
+        tokenLabelColor: randomColor(),
+        tokenStatusColor: "gray",
+        linkedTo: null,
+      },
+      id: uuidv4(),
     });
 
+    if (!tokenAdded) {
+      setTokenAdded(true);
+    }
     setOpen(false);
   }
+
+  // ADD TOKEN TO DB
+  async function addTokenToDataBase(creaturesToken: TokenData) {
+    const creaturesTokensJson = JSON.stringify(creaturesToken);
+    const postTokens = await fetch("http://localhost:9000/creaturesTokens", {
+      method: "POST",
+      body: creaturesTokensJson,
+    });
+  }
+
+  React.useEffect(() => {
+    if (tokenAdded) {
+      addTokenToDataBase(token);
+    }
+  }, [token]);
 
   return (
     <React.Fragment>
@@ -206,8 +248,6 @@ export default function TokenModal(props: tokenModalProps) {
             variant="standard"
             onChange={handleOnChange}
           />
-
-          <CustomizedAccordions />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleAddToken}>ADD CREATURE TO BATTLEFIELD</Button>

@@ -1,4 +1,4 @@
-.initiativeField {
+.initiativeZone {
   width: 20%;
   border: 2px solid black;
 }
@@ -8,9 +8,15 @@
   flex-direction: column;
   padding: 10px;
   gap: 5px;
+  align-items: center;
+  height: 97%;
 }
 
 .initiativeRow {
-  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  border: 1px dotted black;
   padding: 5px;
+  width: 284px;
+  overflow-y: auto;
 }
